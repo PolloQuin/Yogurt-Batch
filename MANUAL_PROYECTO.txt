@@ -1,0 +1,261 @@
+MANUAL DEL PROYECTO
+Yogurt-Batch
+
+Este proyecto es una API hecha con Java y Spring Boot para manejar el proceso
+de preparacion de lotes de yogurt. La idea principal es poder crear recetas,
+guardar ingredientes, iniciar lotes, cambiar sus estados y consultar datos de
+temperatura o monitoreo.
+
+El codigo principal esta dentro de la carpeta:
+
+demo/
+
+============================================================
+1. TECNOLOGIAS USADAS
+============================================================
+
+El proyecto usa:
+
+- Java 21
+- Spring Boot
+- Maven
+- Spring Data JPA
+- H2 Database
+- Lombok
+- Swagger / OpenAPI
+
+Spring Boot se usa para levantar la API. JPA sirve para trabajar con la base
+de datos usando clases Java. H2 es una base de datos en memoria, util para
+probar sin instalar otra base de datos. Lombok ayuda a no escribir tantos
+getters, setters y constructores.
+
+============================================================
+2. ESTRUCTURA DEL PROYECTO
+============================================================
+
+La estructura mas importante es esta:
+
+demo/src/main/java/com/nicolasquintero/demo/
+
+Dentro de esa carpeta estan las partes principales:
+
+- DemoApplication.java:
+  Es el archivo que arranca la aplicacion.
+
+- model:
+  Contiene las entidades del proyecto, como Recipe, Ingredient,
+  YogurtBatch y TemperatureLog.
+
+- dto:
+  Contiene clases para recibir datos desde la API, por ejemplo RecipeDto
+  o BatchDto.
+
+- domain/repository:
+  Contiene los repositorios que se conectan con la base de datos.
+
+- service:
+  Contiene la logica del proyecto.
+
+- model/controller:
+  Contiene los controladores REST, que son los endpoints de la API.
+
+- exception:
+  Contiene el manejo de errores del proyecto.
+
+============================================================
+3. QUE HACE CADA MODELO
+============================================================
+
+Recipe:
+
+Representa una receta de yogurt. Guarda datos como nombre, descripcion,
+temperatura de calentamiento, temperatura de incubacion, tiempo de
+refrigeracion, dificultad y si la receta esta activa.
+
+Ingredient:
+
+Representa un ingrediente de una receta. Guarda el nombre, cantidad, unidad,
+notas y si el ingrediente es opcional.
+
+YogurtBatch:
+
+Representa un lote de yogurt. Guarda el codigo del lote, la receta usada, el
+estado actual, volumen de leche, cantidad de cultivo, temperatura objetivo y
+fechas del proceso.
+
+Los estados del lote pueden ser:
+
+- PREPARING
+- HEATING
+- COOLING
+- INOCULATING
+- INCUBATION
+- REFRIGERATION
+- COMPLETED
+- FAILED
+- INCUBATING
+- REFRIGERATING
+
+TemperatureLog:
+
+Representa un registro de temperatura de un lote. Guarda la temperatura, la
+fecha del registro, el tipo de proceso y notas.
+
+============================================================
+4. SERVICIOS DEL PROYECTO
+============================================================
+
+RecipeService:
+
+Es el servicio mas completo. Permite crear recetas, actualizarlas, buscarlas,
+activarlas y desactivarlas. Tambien revisa que no se creen dos recetas con el
+mismo nombre.
+
+YogurtMakingService:
+
+Esta pensado para manejar el proceso de los lotes de yogurt. Tiene metodos
+para iniciar un lote, empezar calentamiento, incubacion, refrigeracion,
+completar un lote o marcarlo como fallido.
+
+En este momento todavia esta incompleto, porque varios metodos tienen
+UnsupportedOperationException o retornan null.
+
+TemperatureControlService:
+
+Esta pensado para obtener la temperatura actual de un lote, pero todavia falta
+implementar esa logica.
+
+============================================================
+5. ENDPOINTS PRINCIPALES
+============================================================
+
+Recetas:
+
+- POST /api/recipes
+  Crea una receta.
+
+- GET /api/recipes
+  Muestra las recetas activas.
+
+- GET /api/recipes/{id}
+  Busca una receta por id.
+
+- PUT /api/recipes/{id}
+  Actualiza una receta.
+
+- GET /api/recipes/search?keyword=texto
+  Busca recetas por palabra clave.
+
+- PATCH /api/recipes/{id}/activate
+  Activa una receta.
+
+- PATCH /api/recipes/{id}/deactivate
+  Desactiva una receta.
+
+Lotes:
+
+- POST /api/batches
+  Inicia un lote de yogurt.
+
+- POST /api/batches/{batchId}/heating
+  Inicia calentamiento.
+
+- POST /api/batches/{batchId}/inoculating
+  Inicia inoculacion.
+
+- POST /api/batches/{batchId}/incubation
+  Inicia incubacion.
+
+- POST /api/batches/{batchId}/refrigeration
+  Inicia refrigeracion.
+
+- POST /api/batches/{batchId}/complete
+  Completa un lote.
+
+- POST /api/batches/{batchId}/fail
+  Marca un lote como fallido.
+
+Monitoreo:
+
+- GET /api/monitoring/batches/active
+  Muestra lotes activos.
+
+- GET /api/monitoring/batches/{batchId}/temperature
+  Muestra resumen de temperatura.
+
+- GET /api/monitoring/batches/{batchId}/temperature-logs
+  Muestra registros de temperatura.
+
+- GET /api/monitoring/dashboard
+  Muestra un resumen general de lotes por estado.
+
+============================================================
+6. BASE DE DATOS Y CONFIGURACION
+============================================================
+
+La base de datos es H2 y se configura en:
+
+demo/src/main/resources/application.properties
+
+La aplicacion corre en el puerto:
+
+8080
+
+La consola de H2 se puede abrir en:
+
+http://localhost:8080/h2-console
+
+La documentacion de Swagger se puede abrir en:
+
+http://localhost:8080/swagger-ui.html
+
+Como la base de datos es en memoria, los datos se borran cuando se cierra la
+aplicacion.
+
+============================================================
+7. COMO EJECUTAR EL PROYECTO
+============================================================
+
+Desde la carpeta principal se entra a demo:
+
+cd demo
+
+En Windows se ejecuta:
+
+.\mvnw.cmd spring-boot:run
+
+Para correr las pruebas:
+
+.\mvnw.cmd test
+
+La prueba actual solo verifica que la aplicacion pueda cargar el contexto de
+Spring Boot.
+
+============================================================
+8. COSAS QUE FALTAN O SE PUEDEN MEJORAR
+============================================================
+
+Todavia faltan algunas partes importantes:
+
+- Completar YogurtMakingService.
+- Completar TemperatureControlService.
+- Corregir algunos nombres con errores de escritura, como starTime,
+  incubarionStarTime y temperaure.
+- Mejorar la inyeccion de dependencias en algunos controladores y servicios.
+- Agregar validaciones para los datos que llegan por la API.
+- Agregar mas pruebas.
+- Unificar nombres de estados como INCUBATION / INCUBATING y
+  REFRIGERATION / REFRIGERATING.
+- Usar una base de datos real si el proyecto se quisiera llevar a produccion.
+
+============================================================
+9. RESUMEN
+============================================================
+
+En resumen, Yogurt-Batch es una API para manejar recetas y lotes de yogurt.
+La parte de recetas ya esta bastante avanzada, mientras que la parte de lotes
+y temperatura todavia esta en proceso. El proyecto ya tiene una estructura
+clara con modelos, DTOs, repositorios, servicios y controladores, asi que puede
+seguirse completando poco a poco.
+
+FIN
