@@ -1,0 +1,93 @@
+MANUAL DE USUARIO
+Yogurt-Batch
+
+Yogurt-Batch es un programa para manejar recetas y lotes de yogurt. Sirve
+para registrar recetas, ingredientes, lotes de produccion y datos de
+temperatura.
+
+El programa no tiene una pantalla grafica propia. Se usa como una API, por eso
+lo mas facil es probarlo desde Swagger.
+
+============================================================
+COMO ENTRAR
+============================================================
+
+Primero se ejecuta el proyecto:
+
+.\mvnw.cmd spring-boot:run
+
+Luego se abre Swagger en el navegador:
+
+http://localhost:8080/swagger-ui.html
+
+Desde ahi se pueden probar las funciones del sistema.
+
+============================================================
+RECETAS
+============================================================
+
+En la seccion /api/recipes se pueden hacer estas acciones:
+
+- Crear una receta.
+- Ver todas las recetas activas.
+- Buscar una receta por id.
+- Actualizar una receta.
+- Activar o desactivar una receta.
+- Buscar recetas por palabra clave.
+
+Lo primero recomendado es crear una receta, porque los lotes necesitan una
+receta para poder iniciarse.
+
+============================================================
+LOTES
+============================================================
+
+En la seccion /api/batches se manejan los lotes de yogurt.
+
+Un lote representa una preparacion de yogurt. Puede pasar por estados como:
+
+- PREPARING
+- HEATING
+- COOLING
+- INCUBATING
+- REFRIGERATING
+- COMPLETED
+- FAILED
+
+Desde Swagger se puede iniciar un lote, cambiar su estado, completarlo o
+marcarlo como fallido.
+
+Nota: esta parte todavia esta en desarrollo, entonces algunas funciones pueden
+no estar completas.
+
+============================================================
+MONITOREO
+============================================================
+
+En la seccion /api/monitoring se puede consultar informacion del proceso:
+
+- Lotes activos.
+- Resumen de temperatura.
+- Registros de temperatura.
+- Dashboard general.
+
+La parte de temperatura tambien esta en desarrollo.
+
+============================================================
+BASE DE DATOS
+============================================================
+
+La base de datos es H2 y se puede revisar en:
+
+http://localhost:8080/h2-console
+
+Datos:
+
+JDBC URL: jdbc:h2:mem:yogurtdb
+Usuario: dejar vacio
+Clave: dejar vacio
+
+Como es una base de datos en memoria, los datos se borran al cerrar la
+aplicacion.
+
+FIN

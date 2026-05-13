@@ -1,0 +1,141 @@
+MANUAL TECNICO
+Yogurt-Batch
+
+Yogurt-Batch es una API REST hecha con Java y Spring Boot para controlar el
+proceso de elaboracion de yogurt. El proyecto maneja recetas, ingredientes,
+lotes de produccion y registros de temperatura.
+
+============================================================
+TECNOLOGIAS
+============================================================
+
+El proyecto usa:
+
+- Java 21
+- Spring Boot 4
+- Maven
+- Spring WebMVC
+- Spring Data JPA
+- H2 Database
+- Lombok
+- Swagger / OpenAPI
+- JUnit
+
+============================================================
+ESTRUCTURA
+============================================================
+
+La estructura principal esta en:
+
+src/main/java/com/nicolasquintero/demo/
+
+Partes principales:
+
+- DemoApplication.java:
+  Clase que inicia la aplicacion.
+
+- model:
+  Contiene las entidades del sistema.
+
+- dto:
+  Contiene los objetos que reciben datos desde la API.
+
+- domain/repository:
+  Contiene los repositorios para conectarse con la base de datos.
+
+- service:
+  Contiene la logica del proyecto.
+
+- model/controller:
+  Contiene los controladores REST y endpoints.
+
+- exception:
+  Contiene el manejo de errores.
+
+============================================================
+MODELOS
+============================================================
+
+Recipe:
+Representa una receta de yogurt.
+
+Ingredient:
+Representa un ingrediente de una receta.
+
+YogurtBatch:
+Representa un lote de produccion de yogurt.
+
+TemperatureLog:
+Representa un registro de temperatura de un lote.
+
+============================================================
+SERVICIOS
+============================================================
+
+RecipeService:
+Maneja la logica de recetas. Permite crear, actualizar, buscar, activar y
+desactivar recetas.
+
+YogurtMakingService:
+Esta pensado para manejar el ciclo de vida de los lotes, como iniciar,
+calentar, incubar, refrigerar, completar o fallar un lote.
+
+TemperatureControlService:
+Esta pensado para consultar la temperatura actual de un lote.
+
+Nota tecnica:
+YogurtMakingService y TemperatureControlService todavia tienen partes sin
+implementar.
+
+============================================================
+CONTROLADORES
+============================================================
+
+RecipeController:
+Expone los endpoints de /api/recipes.
+
+YogurtBatchController:
+Expone los endpoints de /api/batches.
+
+MonitoringController:
+Expone los endpoints de /api/monitoring.
+
+============================================================
+CONFIGURACION
+============================================================
+
+La configuracion esta en:
+
+src/main/resources/application.properties
+
+Datos importantes:
+
+- Puerto: 8080
+- Base de datos: H2 en memoria
+- Swagger: /swagger-ui.html
+- Consola H2: /h2-console
+
+============================================================
+COMANDOS
+============================================================
+
+Ejecutar el proyecto en Windows:
+
+.\mvnw.cmd spring-boot:run
+
+Ejecutar pruebas:
+
+.\mvnw.cmd test
+
+============================================================
+PENDIENTES
+============================================================
+
+- Completar la logica de lotes.
+- Completar el control de temperatura.
+- Agregar mas validaciones.
+- Agregar mas pruebas.
+- Corregir algunos nombres con errores de escritura.
+- Revisar estados repetidos o parecidos.
+
+FIN
